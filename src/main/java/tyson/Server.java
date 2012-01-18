@@ -1,6 +1,7 @@
 package tyson;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,7 +13,9 @@ public class Server {
 
     public Server(int port) {
         try {
-            this.serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket();
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(port));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

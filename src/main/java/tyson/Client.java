@@ -22,7 +22,10 @@ public class Client {
             logger.info("Trying to connect to " + remoteHost + ":" + port);
             socket = new Socket();
             try {
+                socket.setReuseAddress(true);
+                socket.bind(new InetSocketAddress(port));
                 socket.connect(remoteAddress, intervalInMilliseconds);
+
                 timeouted = false;
 
             } catch (SocketTimeoutException e) {
