@@ -1,4 +1,4 @@
-package tyson.impl;
+package tyson;
 
 public interface ConnectionProducer {
 

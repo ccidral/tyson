@@ -1,8 +1,5 @@
 package tyson;
 
-import tyson.impl.ConnectionConsumer;
-import tyson.impl.ConnectionProducer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +27,9 @@ public class MockConnectionProducer implements ConnectionProducer {
         consumers.add(consumer);
     }
 
-    public void produceConnection() {
+    public void produceConnection(Connection connection) {
         for(ConnectionConsumer consumer : consumers)
-            consumer.consumeConnection(this);
+            consumer.consumeConnection(connection, this);
     }
 
 }
