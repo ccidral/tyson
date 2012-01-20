@@ -28,7 +28,8 @@ public class Tyson implements ConnectionProducer, ConnectionConsumer {
 
     @Override
     public void stop() {
-        throw new NotImplementedYet();
+        for(ConnectionProducer producer : connectionProducers)
+            producer.stop();
     }
 
     @Override

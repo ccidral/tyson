@@ -33,6 +33,15 @@ public class TysonTest {
     }
 
     @Test
+    public void producersMustNotBeRunningAfterStoppingTyson() {
+        tyson.start();
+        tyson.stop();
+
+        assertFalse(localServer.isRunning());
+        assertFalse(holePuncher.isRunning());
+    }
+
+    @Test
     public void shutdownLocalServerWhenHolePuncherConnectedToPeer() {
         tyson.start();
         holePuncher.produceConnection(null);
