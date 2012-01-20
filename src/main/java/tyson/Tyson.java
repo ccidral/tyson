@@ -1,5 +1,8 @@
 package tyson;
 
+import tyson.sample.chat.Chat;
+import tyson.util.Silently;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
@@ -11,6 +14,7 @@ public class Tyson {
 
     private boolean connected;
     private final Logger logger = new Logger(this);
+    private TysonListener listener;
 
     public void punchHolesFor(String remoteHost) {
         Server server = new Server(PORT);
@@ -36,14 +40,23 @@ public class Tyson {
         logger.info((willUse ? "Using " : "Will not use ") + socket);
 
         if(willUse)
-            sendAndReceiveData(socket);
+            notifyListener(socket);
 
         return willUse;
     }
 
-    private void sendAndReceiveData(Socket socket) {
-        new MessageReader(socket).readAndPrint();
-        new MessageWriter(socket).write("Hello, this is " + System.getProperty("user.name") + ". Here is " + new Date());
+    private void notifyListener(final Socket socket) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                listener.handleConnection(socket);
+            }
+        }, "Listener notification").start();
+    }
+
+    public Tyson listener(TysonListener listener) {
+        this.listener = listener;
+        return this;
     }
 
     private class Listener implements ClientListener, ServerListener {
@@ -57,11 +70,7 @@ public class Tyson {
         @Override
         public void connectedToServer(Socket socket) {
             if(!useThis(socket))
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Silently.close(socket);
         }
 
         @Override
@@ -70,6 +79,7 @@ public class Tyson {
                 return !connected;
             }
         }
+
     }
 }
 

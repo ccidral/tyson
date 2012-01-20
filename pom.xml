@@ -31,7 +31,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>tyson.Main</mainClass>
+                            <mainClass>tyson.sample.chat.Chat</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
