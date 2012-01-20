@@ -21,23 +21,23 @@ public class TysonTest {
     }
 
     @Test
-    public void localServerIsStoppedBeforeStartPunchingHoles() {
+    public void localServerMustBeStoppedBeforeStartPunchingHoles() {
         assertFalse(localServer.isRunning());
     }
 
     @Test
-    public void localServerIsRunningAfterStartedPunchingHoles() {
+    public void localServerMustBeRunningAfterStartedPunchingHoles() {
         tyson.punchHoles();
         assertTrue(localServer.isRunning());
     }
 
     @Test
-    public void holePuncherIsStoppedBeforeStartPunchingHoles() {
+    public void holePuncherMustBeStoppedBeforeStartPunchingHoles() {
         assertFalse(holePuncher.isRunning());
     }
 
     @Test
-    public void holePuncherIsRunningAfterStartedPunchingHoles() {
+    public void holePuncherMustBeRunningAfterStartedPunchingHoles() {
         tyson.punchHoles();
         assertTrue(holePuncher.isRunning());
     }
