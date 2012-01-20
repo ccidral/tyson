@@ -59,29 +59,29 @@ public class TysonTest {
 
     @Test
     public void getTheConnectionFromLocalServer() {
-        final Connection expectedConnection = new MockConnection();
+        final Connection producedConnection = new MockConnection();
         final ConnectionCatcher catcher = new ConnectionCatcher();
 
         tyson.addConsumer(catcher);
         tyson.start();
 
-        localServer.produceConnection(expectedConnection);
+        localServer.produceConnection(producedConnection);
 
-        assertSame(expectedConnection, catcher.connection);
+        assertSame(producedConnection, catcher.connection);
         assertSame(tyson, catcher.producer);
     }
 
     @Test
     public void getTheConnectionFromHolePuncher() {
-        final Connection expectedConnection = new MockConnection();
+        final Connection producedConnection = new MockConnection();
         final ConnectionCatcher catcher = new ConnectionCatcher();
 
         tyson.addConsumer(catcher);
         tyson.start();
 
-        holePuncher.produceConnection(expectedConnection);
+        holePuncher.produceConnection(producedConnection);
 
-        assertSame(expectedConnection, catcher.connection);
+        assertSame(producedConnection, catcher.connection);
         assertSame(tyson, catcher.producer);
     }
 
