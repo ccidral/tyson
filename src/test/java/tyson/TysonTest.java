@@ -20,24 +20,15 @@ public class TysonTest {
     }
 
     @Test
-    public void localServerMustBeStoppedBeforeStartTyson() {
+    public void producersMustNotBeRunningBeforeStartTyson() {
         assertFalse(localServer.isRunning());
-    }
-
-    @Test
-    public void localServerMustBeRunningAfterStartedTyson() {
-        tyson.start();
-        assertTrue(localServer.isRunning());
-    }
-
-    @Test
-    public void holePuncherMustBeStoppedBeforeStartTyson() {
         assertFalse(holePuncher.isRunning());
     }
 
     @Test
-    public void holePuncherMustBeRunningAfterStartedTyson() {
+    public void producersMustBeRunningAfterStartedTyson() {
         tyson.start();
+        assertTrue(localServer.isRunning());
         assertTrue(holePuncher.isRunning());
     }
 
