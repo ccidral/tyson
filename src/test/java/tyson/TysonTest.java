@@ -60,14 +60,14 @@ public class TysonTest {
         tyson.start();
 
         final Connection expectedConnection = new MockConnection();
+        final ConnectionCatcher catcher = new ConnectionCatcher();
+
+        tyson.addConsumer(catcher);
+
         localServer.produceConnection(expectedConnection);
 
-        tyson.addConsumer(new ConnectionConsumer() {
-            @Override
-            public void consumeConnection(Connection connection, ConnectionProducer producer) {
-                assertSame(expectedConnection, connection);
-            }
-        });
+        assertSame(expectedConnection, catcher.connection);
+        assertSame(tyson, catcher.producer);
     }
 
     @Test
@@ -75,14 +75,24 @@ public class TysonTest {
         tyson.start();
 
         final Connection expectedConnection = new MockConnection();
+        final ConnectionCatcher catcher = new ConnectionCatcher();
+
+        tyson.addConsumer(catcher);
+
         holePuncher.produceConnection(expectedConnection);
 
-        tyson.addConsumer(new ConnectionConsumer() {
-            @Override
-            public void consumeConnection(Connection connection, ConnectionProducer producer) {
-                assertSame(expectedConnection, connection);
-            }
-        });
+        assertSame(expectedConnection, catcher.connection);
+        assertSame(tyson, catcher.producer);
     }
 
+    private class ConnectionCatcher implements ConnectionConsumer {
+        public Connection connection;
+        public ConnectionProducer producer;
+
+        @Override
+        public void consumeConnection(Connection connection, ConnectionProducer producer) {
+            this.connection = connection;
+            this.producer = producer;
+        }
+    }
 }
