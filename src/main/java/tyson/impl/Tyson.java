@@ -10,22 +10,20 @@ import java.util.List;
 
 public class Tyson implements ConnectionProducer, ConnectionConsumer {
 
-    private final ConnectionProducer localServer;
-    private final ConnectionProducer holePuncher;
+    private final ConnectionProducer[] connectionProducers;
     private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
 
-    public Tyson(ConnectionProducer localServer, ConnectionProducer holePuncher) {
-        this.localServer = localServer;
-        this.holePuncher = holePuncher;
+    public Tyson(ConnectionProducer... connectionProducers) {
+        this.connectionProducers = connectionProducers;
 
-        localServer.addConsumer(this);
-        holePuncher.addConsumer(this);
+        for(ConnectionProducer producer : connectionProducers)
+            producer.addConsumer(this);
     }
 
     @Override
     public void start() {
-        localServer.start();
-        holePuncher.start();
+        for(ConnectionProducer producer : connectionProducers)
+            producer.start();
     }
 
     @Override
@@ -39,11 +37,10 @@ public class Tyson implements ConnectionProducer, ConnectionConsumer {
     }
 
     @Override
-    public void consumeConnection(Connection connection, ConnectionProducer producer) {
-        if(producer == localServer)
-            holePuncher.stop();
-        else
-            localServer.stop();
+    public void consumeConnection(Connection connection, ConnectionProducer theProducer) {
+        for(ConnectionProducer otherProducer : connectionProducers)
+            if(otherProducer != theProducer)
+                otherProducer.stop();
 
         for(ConnectionConsumer consumer : consumers)
             consumer.consumeConnection(connection, this);
