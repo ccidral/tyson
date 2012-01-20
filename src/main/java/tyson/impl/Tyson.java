@@ -3,7 +3,6 @@ package tyson.impl;
 import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
-import tyson.lang.NotImplementedYet;
 
 import java.util.ArrayList;
 import java.util.List;
