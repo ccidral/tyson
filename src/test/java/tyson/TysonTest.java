@@ -59,13 +59,11 @@ public class TysonTest {
 
     @Test
     public void makeSureConnectionProducedByLocalServerIsCorrectlyPassedToTysonListeners() {
-        tyson.start();
-
         final Connection expectedConnection = new MockConnection();
         final ConnectionCatcher catcher = new ConnectionCatcher();
 
         tyson.addConsumer(catcher);
-
+        tyson.start();
         localServer.produceConnection(expectedConnection);
 
         assertSame(expectedConnection, catcher.connection);
@@ -74,13 +72,11 @@ public class TysonTest {
 
     @Test
     public void makeSureConnectionProducedByHolePuncherIsCorrectlyPassedToTysonListeners() {
-        tyson.start();
-
         final Connection expectedConnection = new MockConnection();
         final ConnectionCatcher catcher = new ConnectionCatcher();
 
         tyson.addConsumer(catcher);
-
+        tyson.start();
         holePuncher.produceConnection(expectedConnection);
 
         assertSame(expectedConnection, catcher.connection);
