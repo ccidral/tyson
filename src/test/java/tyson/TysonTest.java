@@ -86,6 +86,7 @@ public class TysonTest {
     }
 
     private class ConnectionCatcher implements ConnectionConsumer {
+
         public Connection connection;
         public ConnectionProducer producer;
 
@@ -95,4 +96,5 @@ public class TysonTest {
             this.producer = producer;
         }
     }
+
 }
