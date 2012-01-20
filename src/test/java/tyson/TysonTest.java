@@ -58,7 +58,7 @@ public class TysonTest {
     }
 
     @Test
-    public void getTheConnectionFromLocalServer() {
+    public void clientGotTheConnectionProducedByTheLocalServer() {
         final Connection producedConnection = new MockConnection();
         final TysonClient client = new TysonClient();
 
@@ -72,7 +72,7 @@ public class TysonTest {
     }
 
     @Test
-    public void getTheConnectionFromHolePuncher() {
+    public void clientGotTheConnectionProducedByTheHolePuncher() {
         final Connection producedConnection = new MockConnection();
         final TysonClient client = new TysonClient();
 
