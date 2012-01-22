@@ -7,16 +7,17 @@ import tyson.ConnectionProducer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tyson implements ConnectionProducer, ConnectionConsumer {
+public class Tyson implements ConnectionProducer {
 
     private final ConnectionProducer[] connectionProducers;
     private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
+    private final ConnectionConsumer funnel = new Funnel();
 
     public Tyson(ConnectionProducer... connectionProducers) {
         this.connectionProducers = connectionProducers;
 
         for(ConnectionProducer producer : connectionProducers)
-            producer.addConsumer(this);
+            producer.addConsumer(funnel);
     }
 
     @Override
@@ -36,14 +37,18 @@ public class Tyson implements ConnectionProducer, ConnectionConsumer {
         consumers.add(consumer);
     }
 
-    @Override
-    public void consumeConnection(Connection connection, ConnectionProducer theProducer) {
-        for(ConnectionProducer otherProducer : connectionProducers)
-            if(otherProducer != theProducer)
-                otherProducer.stop();
+    private class Funnel implements ConnectionConsumer {
 
-        for(ConnectionConsumer consumer : consumers)
-            consumer.consumeConnection(connection, this);
+        @Override
+        public void consumeConnection(Connection connection, ConnectionProducer theProducer) {
+            for(ConnectionProducer otherProducer : connectionProducers)
+                if(otherProducer != theProducer)
+                    otherProducer.stop();
+
+            for(ConnectionConsumer consumer : consumers)
+                consumer.consumeConnection(connection, Tyson.this);
+        }
+
     }
 
 }
