@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import tyson.impl.LocalServer;
+import tyson.mock.MockConsumer;
 import tyson.util.AsyncSocketReader;
 import tyson.util.ConnectTo;
 

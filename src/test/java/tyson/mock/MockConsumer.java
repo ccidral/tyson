@@ -1,8 +1,11 @@
-package tyson;
+package tyson.mock;
 
+import tyson.Connection;
+import tyson.ConnectionConsumer;
+import tyson.ConnectionProducer;
 import tyson.util.Silently;
 
-class MockConsumer implements ConnectionConsumer {
+public class MockConsumer implements ConnectionConsumer {
 
     public Connection connection;
     public ConnectionProducer producer;

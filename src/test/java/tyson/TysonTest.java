@@ -3,6 +3,9 @@ package tyson;
 import org.junit.Before;
 import org.junit.Test;
 import tyson.impl.Tyson;
+import tyson.mock.MockConnection;
+import tyson.mock.MockConnectionProducer;
+import tyson.mock.MockConsumer;
 
 import static org.junit.Assert.*;
 

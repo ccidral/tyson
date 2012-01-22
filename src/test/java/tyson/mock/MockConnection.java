@@ -1,5 +1,6 @@
-package tyson;
+package tyson.mock;
 
+import tyson.Connection;
 import tyson.lang.NotImplementedYet;
 
 import java.net.Socket;

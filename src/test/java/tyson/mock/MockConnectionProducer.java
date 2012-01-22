@@ -1,4 +1,8 @@
-package tyson;
+package tyson.mock;
+
+import tyson.Connection;
+import tyson.ConnectionConsumer;
+import tyson.ConnectionProducer;
 
 import java.util.ArrayList;
 import java.util.List;
