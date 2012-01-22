@@ -9,12 +9,12 @@ import java.util.List;
 
 public class Tyson implements ConnectionProducer {
 
-    private final ConnectionProducer[] connectionProducers;
+    private final ConnectionProducer[] producers;
     private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
     private final ConnectionConsumer funnel = new Funnel();
 
     public Tyson(ConnectionProducer... connectionProducers) {
-        this.connectionProducers = connectionProducers;
+        this.producers = connectionProducers;
 
         for(ConnectionProducer producer : connectionProducers)
             producer.addConsumer(funnel);
@@ -22,13 +22,13 @@ public class Tyson implements ConnectionProducer {
 
     @Override
     public void start() {
-        for(ConnectionProducer producer : connectionProducers)
+        for(ConnectionProducer producer : producers)
             producer.start();
     }
 
     @Override
     public void stop() {
-        for(ConnectionProducer producer : connectionProducers)
+        for(ConnectionProducer producer : producers)
             producer.stop();
     }
 
@@ -41,7 +41,7 @@ public class Tyson implements ConnectionProducer {
 
         @Override
         public void consumeConnection(Connection connection, ConnectionProducer theProducer) {
-            for(ConnectionProducer otherProducer : connectionProducers)
+            for(ConnectionProducer otherProducer : producers)
                 if(otherProducer != theProducer)
                     otherProducer.stop();
 
