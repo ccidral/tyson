@@ -65,7 +65,7 @@ public class TysonTest {
     @Test
     public void clientGotTheConnectionProducedByTheLocalServer() {
         final Connection producedConnection = new MockConnection();
-        final TysonClient client = new TysonClient();
+        final MockConsumer client = new MockConsumer();
 
         tyson.addConsumer(client);
         tyson.start();
@@ -79,7 +79,7 @@ public class TysonTest {
     @Test
     public void clientGotTheConnectionProducedByTheHolePuncher() {
         final Connection producedConnection = new MockConnection();
-        final TysonClient client = new TysonClient();
+        final MockConsumer client = new MockConsumer();
 
         tyson.addConsumer(client);
         tyson.start();
@@ -88,18 +88,6 @@ public class TysonTest {
 
         assertSame(producedConnection, client.connection);
         assertSame(tyson, client.producer);
-    }
-
-    private class TysonClient implements ConnectionConsumer {
-
-        public Connection connection;
-        public ConnectionProducer producer;
-
-        @Override
-        public void consumeConnection(Connection connection, ConnectionProducer producer) {
-            this.connection = connection;
-            this.producer = producer;
-        }
     }
 
 }
