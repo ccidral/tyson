@@ -11,13 +11,12 @@ public class Tyson implements ConnectionProducer {
 
     private final ConnectionProducer[] producers;
     private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
-    private final ConnectionConsumer funnel = new Funnel();
 
     public Tyson(ConnectionProducer... connectionProducers) {
         this.producers = connectionProducers;
 
         for(ConnectionProducer producer : connectionProducers)
-            producer.addConsumer(funnel);
+            producer.addConsumer(new Funnel());
     }
 
     @Override
