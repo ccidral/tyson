@@ -5,7 +5,6 @@ import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -22,25 +21,14 @@ public class LocalServer implements ConnectionProducer {
     }
 
     @Override
-    public void start() {
-        try {
-            serverSocket = new ServerSocket();
-            serverSocket.bind(new InetSocketAddress(port));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void addConsumer(ConnectionConsumer consumer) {
+        consumers.add(consumer);
+    }
 
-        String threadName = getClass().getSimpleName() + " acceptor";
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    connectionAccepted(serverSocket.accept());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }, threadName).start();
+    @Override
+    public void start() {
+        serverSocket = createServerSocket(port);
+        acceptOneConnection();
     }
 
     @Override
@@ -55,9 +43,26 @@ public class LocalServer implements ConnectionProducer {
         }
     }
 
-    @Override
-    public void addConsumer(ConnectionConsumer consumer) {
-        consumers.add(consumer);
+    private static ServerSocket createServerSocket(int port) {
+        try {
+            return new ServerSocket(port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void acceptOneConnection() {
+        String threadName = getClass().getSimpleName() + "@" + port + " acceptor";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    connectionAccepted(serverSocket.accept());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, threadName).start();
     }
 
     private void connectionAccepted(Socket socket) {
