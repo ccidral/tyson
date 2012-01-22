@@ -21,6 +21,11 @@ public class Tyson implements ConnectionProducer {
     }
 
     @Override
+    public void addConsumer(ConnectionConsumer consumer) {
+        consumers.add(consumer);
+    }
+
+    @Override
     public void start() {
         for(ConnectionProducer producer : producers)
             producer.start();
@@ -30,11 +35,6 @@ public class Tyson implements ConnectionProducer {
     public void stop() {
         for(ConnectionProducer producer : producers)
             producer.stop();
-    }
-
-    @Override
-    public void addConsumer(ConnectionConsumer consumer) {
-        consumers.add(consumer);
     }
 
     private class Funnel implements ConnectionConsumer {
