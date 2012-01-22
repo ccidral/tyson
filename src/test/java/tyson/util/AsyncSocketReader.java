@@ -2,14 +2,14 @@ package tyson.util;
 
 import java.net.Socket;
 
-public class AsyncSocketReader implements Runnable {
+public class AsyncSocketReader {
 
     private final Socket socket;
     private String text;
 
     private AsyncSocketReader(Socket socket) {
         this.socket = socket;
-        new Thread(this, getClass().getSimpleName()).start();
+        new ReadingThread().start();
     }
 
     public static AsyncSocketReader startReading(Socket socket) {
@@ -22,10 +22,16 @@ public class AsyncSocketReader implements Runnable {
         return text;
     }
 
-    @Override
-    public synchronized void run() {
+    private synchronized void readLineFromSocket() {
         text = Silently.readLine(socket);
         notify();
+    }
+
+    private class ReadingThread extends Thread {
+        @Override
+        public void run() {
+            readLineFromSocket();
+        }
     }
 
 }
