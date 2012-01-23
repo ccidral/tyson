@@ -57,7 +57,7 @@ public class LocalServer implements ConnectionProducer {
             @Override
             public void run() {
                 try {
-                    connectionAccepted(serverSocket.accept());
+                    deliverToConsumers(serverSocket.accept());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -65,7 +65,7 @@ public class LocalServer implements ConnectionProducer {
         }, threadName).start();
     }
 
-    private void connectionAccepted(Socket socket) {
+    private void deliverToConsumers(Socket socket) {
         Connection connection = new DefaultConnection(socket);
         for(ConnectionConsumer consumer : consumers)
             consumer.consumeConnection(connection, this);
