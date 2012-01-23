@@ -36,13 +36,17 @@ public class Tyson implements ConnectionProducer {
             producer.stop();
     }
 
+    private void stopAllProducersExcept(ConnectionProducer excludedProducer) {
+        for(ConnectionProducer otherProducer : producers)
+            if(otherProducer != excludedProducer)
+                otherProducer.stop();
+    }
+
     private class Funnel implements ConnectionConsumer {
 
         @Override
-        public void consumeConnection(Connection connection, ConnectionProducer theProducer) {
-            for(ConnectionProducer otherProducer : producers)
-                if(otherProducer != theProducer)
-                    otherProducer.stop();
+        public void consumeConnection(Connection connection, ConnectionProducer thisProducer) {
+            stopAllProducersExcept(thisProducer);
 
             for(ConnectionConsumer consumer : consumers)
                 consumer.consumeConnection(connection, Tyson.this);
