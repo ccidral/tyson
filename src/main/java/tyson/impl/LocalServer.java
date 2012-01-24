@@ -3,6 +3,8 @@ package tyson.impl;
 import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
+import tyson.StopListener;
+import tyson.lang.NotImplementedYet;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -41,6 +43,11 @@ public class LocalServer implements ConnectionProducer {
             }
             serverSocket = null;
         }
+    }
+
+    @Override
+    public void addStopListener(StopListener listener) {
+        throw new NotImplementedYet();
     }
 
     private static ServerSocket createServerSocket(int port) {

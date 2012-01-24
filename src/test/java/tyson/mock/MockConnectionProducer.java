@@ -3,6 +3,8 @@ package tyson.mock;
 import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
+import tyson.StopListener;
+import tyson.lang.NotImplementedYet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,11 @@ public class MockConnectionProducer implements ConnectionProducer {
     @Override
     public void stop() {
         isRunning = false;
+    }
+
+    @Override
+    public void addStopListener(StopListener listener) {
+        throw new NotImplementedYet();
     }
 
     @Override

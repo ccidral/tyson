@@ -1,9 +1,7 @@
 package tyson;
 
-public interface ConnectionProducer {
+public interface ConnectionProducer extends Startable {
 
-    void start();
-    void stop();
     void addConsumer(ConnectionConsumer consumer);
 
 }

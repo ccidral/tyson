@@ -3,6 +3,8 @@ package tyson.impl;
 import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
+import tyson.StopListener;
+import tyson.lang.NotImplementedYet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,11 @@ public class Tyson implements ConnectionProducer {
     public void stop() {
         for(ConnectionProducer producer : producers)
             producer.stop();
+    }
+
+    @Override
+    public void addStopListener(StopListener listener) {
+        throw new NotImplementedYet();
     }
 
     private void stopAllProducersExcept(ConnectionProducer excludedProducer) {

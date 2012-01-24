@@ -9,11 +9,14 @@ public class MockConsumer implements ConnectionConsumer {
 
     public Connection connection;
     public ConnectionProducer producer;
+    private boolean hasConsumedSomething;
 
     @Override
     public synchronized void consumeConnection(Connection connection, ConnectionProducer producer) {
         this.connection = connection;
         this.producer = producer;
+
+        hasConsumedSomething = true;
 
         notify();
     }
@@ -22,6 +25,10 @@ public class MockConsumer implements ConnectionConsumer {
         if(connection == null)
             Silently.wait(this);
         return connection;
+    }
+
+    public boolean hasConsumedSomething() {
+        return hasConsumedSomething;
     }
 
 }

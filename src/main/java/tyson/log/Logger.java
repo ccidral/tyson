@@ -19,4 +19,9 @@ public class Logger {
         String now = DATE_FORMAT.format(new Date());
         System.out.format("%s %18s ~ %-18s => %s%n", now, threadName, loggerName, message);
     }
+
+    public void error(Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
 }
