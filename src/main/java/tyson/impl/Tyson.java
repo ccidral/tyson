@@ -6,13 +6,10 @@ import tyson.ConnectionProducer;
 import tyson.StopListener;
 import tyson.lang.NotImplementedYet;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Tyson implements ConnectionProducer {
 
     private final ConnectionProducer[] producers;
-    private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
+    private final ConnectionConsumers consumers = new ConnectionConsumers(this);
 
     public Tyson(ConnectionProducer... connectionProducers) {
         this.producers = connectionProducers;
@@ -54,9 +51,7 @@ public class Tyson implements ConnectionProducer {
         @Override
         public void consumeConnection(Connection connection, ConnectionProducer thisProducer) {
             stopAllProducersExcept(thisProducer);
-
-            for(ConnectionConsumer consumer : consumers)
-                consumer.consumeConnection(connection, Tyson.this);
+            consumers.consume(connection);
         }
 
     }

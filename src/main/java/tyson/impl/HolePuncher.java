@@ -1,6 +1,5 @@
 package tyson.impl;
 
-import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
 import tyson.StopListener;
@@ -15,7 +14,7 @@ import java.util.List;
 public class HolePuncher implements ConnectionProducer {
 
     private final ConnectionTrier connectionTrier;
-    private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
+    private final ConnectionConsumers consumers = new ConnectionConsumers(this);
     private final List<StopListener> stopListeners = new ArrayList<StopListener>();
     private final Logger logger = new Logger(this);
 
@@ -41,12 +40,6 @@ public class HolePuncher implements ConnectionProducer {
     @Override
     public void addConsumer(ConnectionConsumer consumer) {
         consumers.add(consumer);
-    }
-
-    private void deliverToConsumers(Socket socket) {
-        Connection connection = new DefaultConnection(socket);
-        for(ConnectionConsumer consumer : consumers)
-            consumer.consumeConnection(connection, this);
     }
 
     private class ConnectionTrier implements Runnable {
@@ -79,7 +72,7 @@ public class HolePuncher implements ConnectionProducer {
             Socket socket = keepTryingToConnect();
 
             if(socket != null)
-                deliverToConsumers(socket);
+                consumers.consume(socket);
 
             for(StopListener listener : stopListeners)
                 listener.onStop();

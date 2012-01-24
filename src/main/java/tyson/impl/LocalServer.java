@@ -1,6 +1,5 @@
 package tyson.impl;
 
-import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
 import tyson.StopListener;
@@ -8,15 +7,13 @@ import tyson.lang.NotImplementedYet;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LocalServer implements ConnectionProducer {
 
     private ServerSocket serverSocket;
+
     private final int port;
-    private final List<ConnectionConsumer> consumers = new ArrayList<ConnectionConsumer>();
+    private final ConnectionConsumers consumers = new ConnectionConsumers(this);
 
     public LocalServer(int port) {
         this.port = port;
@@ -64,18 +61,12 @@ public class LocalServer implements ConnectionProducer {
             @Override
             public void run() {
                 try {
-                    deliverToConsumers(serverSocket.accept());
+                    consumers.consume(serverSocket.accept());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         }, threadName).start();
-    }
-
-    private void deliverToConsumers(Socket socket) {
-        Connection connection = new DefaultConnection(socket);
-        for(ConnectionConsumer consumer : consumers)
-            consumer.consumeConnection(connection, this);
     }
 
 }
