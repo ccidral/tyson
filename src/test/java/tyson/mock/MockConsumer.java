@@ -3,7 +3,7 @@ package tyson.mock;
 import tyson.Connection;
 import tyson.ConnectionConsumer;
 import tyson.ConnectionProducer;
-import tyson.util.Silently;
+import tyson.util.Quietly;
 
 public class MockConsumer implements ConnectionConsumer {
 
@@ -23,7 +23,7 @@ public class MockConsumer implements ConnectionConsumer {
 
     public synchronized Connection waitForConnection() {
         if(connection == null)
-            Silently.wait(this);
+            Quietly.wait(this);
         return connection;
     }
 

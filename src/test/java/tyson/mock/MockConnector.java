@@ -1,7 +1,7 @@
 package tyson.mock;
 
 import tyson.impl.Connector;
-import tyson.util.Silently;
+import tyson.util.Quietly;
 
 import java.net.Socket;
 import java.net.SocketException;
@@ -45,7 +45,7 @@ public class MockConnector implements Connector {
 
     public synchronized void waitForNumberOfTries(int numberOfTriesToWaitFor) {
         while(!alreadyTried(numberOfTriesToWaitFor))
-            Silently.wait(this);
+            Quietly.wait(this);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MockConnector implements Connector {
         if(mustWaitToBeCancelledWhileTryingToConnect)
             waitForCancellation();
 
-        Silently.sleep(timeout);
+        Quietly.sleep(timeout);
 
         if(shouldTimeout())
             throw new SocketTimeoutException();
@@ -91,7 +91,7 @@ public class MockConnector implements Connector {
 
     private void waitForCancellation() throws SocketException {
         synchronized (cancellationSignal) {
-            Silently.wait(cancellationSignal);
+            Quietly.wait(cancellationSignal);
         }
         throw new SocketException();
     }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class Silently {
+public class Quietly {
 
     public static void wait(Object object) {
         try {

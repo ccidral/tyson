@@ -1,7 +1,7 @@
 package tyson.mock;
 
 import tyson.StopListener;
-import tyson.util.Silently;
+import tyson.util.Quietly;
 
 public class MockStopListener implements StopListener {
 
@@ -9,7 +9,7 @@ public class MockStopListener implements StopListener {
 
     public synchronized void waitForStop() {
         if (!stopped)
-            Silently.wait(this);
+            Quietly.wait(this);
     }
 
     @Override

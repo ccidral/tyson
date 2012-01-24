@@ -18,12 +18,12 @@ public class AsyncSocketReader {
 
     public synchronized String getResult() {
         if(text == null)
-            Silently.wait(this);
+            Quietly.wait(this);
         return text;
     }
 
     private synchronized void readLineFromSocket() {
-        text = Silently.readLine(socket);
+        text = Quietly.readLine(socket);
         notify();
     }
 
