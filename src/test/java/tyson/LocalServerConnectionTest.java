@@ -14,7 +14,7 @@ import java.net.Socket;
 
 import static org.junit.Assert.*;
 
-public class StartedLocalServerTest {
+public class LocalServerConnectionTest {
 
     private static final int PORT = 8586;
 
@@ -32,11 +32,6 @@ public class StartedLocalServerTest {
     @After
     public void stopServer() {
         localServer.stop();
-    }
-
-    @Test
-    public void mustBeListeningAfterStart() throws Exception {
-        ConnectTo.localhost(PORT).close();
     }
 
     @Test

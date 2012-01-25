@@ -10,7 +10,7 @@ import java.net.ConnectException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class StoppedLocalServerTest {
+public class LocalServerStartTest {
 
     private static final int PORT = 8586;
 
@@ -22,7 +22,7 @@ public class StoppedLocalServerTest {
     }
 
     @Test
-    public void mustNotBeListening() throws Exception {
+    public void mustNotBeListeningBeforeStart() throws Exception {
         try {
             ConnectTo.localhost(PORT).close();
             fail("Connection should fail: server should not be listening before calling start()");
@@ -33,8 +33,13 @@ public class StoppedLocalServerTest {
     }
 
     @Test
-    public void tryToStopWithoutHavingStartedItBefore() {
-        localServer.stop();
+    public void mustBeListeningAfterStart() throws Exception {
+        localServer.start();
+        try {
+            ConnectTo.localhost(PORT).close();
+        } finally {
+            localServer.stop();
+        }
     }
 
 }
