@@ -18,4 +18,8 @@ public class MockStopListener implements StopListener {
         notify();
     }
 
+    public boolean hasOnStopBeenCalled() {
+        return stopped;
+    }
+
 }

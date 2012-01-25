@@ -34,6 +34,7 @@ public class HolePuncherStopTest {
     @Test(timeout = 3000)
     public void stopBeforeStart() throws Exception {
         holePuncher.stop();
+        assertFalse(stopListener.hasOnStopBeenCalled());
     }
 
     @Test(timeout = 3000)
