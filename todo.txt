@@ -4,6 +4,7 @@ URGENT
 
 CRITICAL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Implement a real connector
+ * Set SO_REUSEADDR on LocalServer socket
+ * Implement a real connector (with SO_REUSEADDR set to true)
  * Implement stop() on LocalServer
  * Implement stop() on Tyson
